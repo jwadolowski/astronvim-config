@@ -314,6 +314,7 @@ local config = {
         "sql",
         "toml",
         "typescript",
+        "vim",
         "vue",
         "yaml",
       },
