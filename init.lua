@@ -84,7 +84,6 @@ local config = {
     "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
     "    ██   ████   ████   ██ ██      ██",
   },
-
   -- Default theme configuration
   default_theme = {
     -- Modify the color palette for the default theme
@@ -153,7 +152,7 @@ local config = {
         },
       },
       disabled = { -- disable formatting capabilities for the listed language servers
-        "sumneko_lua",
+        -- "sumneko_lua",
       },
       timeout_ms = 1000, -- default format timeout
       -- filter = function(client) -- fully override the default formatting function
@@ -178,6 +177,17 @@ local config = {
     -- Add overrides for LSP server settings, the keys are the name of the server
     ["server-settings"] = {
       -- example for addings schemas to yamlls
+      -- yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
+      --   settings = {
+      --     yaml = {
+      --       schemas = {
+      --         ["http://json.schemastore.org/github-workflow"] = ".github/workflows/*.{yml,yaml}",
+      --         ["http://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
+      --         ["http://json.schemastore.org/ansible-stable-2.9"] = "roles/tasks/*.{yml,yaml}",
+      --       },
+      --     },
+      --   },
+      -- },
       yamlls = { -- override table for require("lspconfig").yamlls.setup({...})
         settings = {
           yaml = {
@@ -192,7 +202,6 @@ local config = {
       },
     },
   },
-
   -- Mapping data with "desc" stored directly by vim.keymap.set().
   --
   -- Please use this mappings table to set keyboard mapping since this is the
@@ -223,7 +232,6 @@ local config = {
   -- Configure plugins
   plugins = {
     init = {
-      -- ["neovim/nvim-lspconfig"] = { commit = "2315a397fd5057e3a74a09a240f606af28447ebf" },
       -- You can disable default plugins as follows:
       -- ["goolord/alpha-nvim"] = { disable = true },
 
@@ -256,19 +264,12 @@ local config = {
       ["ahmedkhalf/project.nvim"] = {
         config = function()
           require("project_nvim").setup {
-            -- your configuration comes here
-            -- or leave it empty to use the default settings
-            -- refer to the configuration section below
           }
-        end
+        end,
       },
       { "tpope/vim-surround" },
       { "fatih/vim-go" },
     },
-    ["mason"] = function(config)
-      config.PATH = "append"
-      config.log_level = vim.log.levels.DEBUG
-    end,
     -- All other entries override the require("<key>").setup({...}) call for default plugins
     ["null-ls"] = function(config) -- overrides `require("null-ls").setup(config)`
       -- config variable is the default configuration table for the setup function call
@@ -281,10 +282,7 @@ local config = {
         -- Set a formatter
         -- null_ls.builtins.formatting.stylua,
         -- null_ls.builtins.formatting.prettier,
-        -- null_ls.builtins.diagnostics.hadolint,
       }
-      -- Debugging hadolint
-      config.debug = true
       return config -- return final config table
     end,
     treesitter = { -- overrides `require("treesitter").setup(...)`
@@ -330,6 +328,7 @@ local config = {
     },
     -- use mason-lspconfig to configure LSP installations
     ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
+      -- ensure_installed = { "sumneko_lua" },
       ensure_installed = {
         "ansiblels",
         "bashls",
@@ -354,12 +353,16 @@ local config = {
     },
     -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
     ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
+      -- ensure_installed = { "prettier", "stylua" },
       ensure_installed = {
         "prettierd",
         "stylua",
         "hadolint",
         "yamllint",
       },
+    },
+    ["mason-nvim-dap"] = { -- overrides `require("mason-nvim-dap").setup(...)`
+      -- ensure_installed = { "python" },
     },
   },
 
@@ -438,36 +441,38 @@ local config = {
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
     -- Set up custom filetypes
-    vim.filetype.add {
-      --   extension = {
-      --     foo = "fooscript",
-      --   },
-      --   filename = {
-      --     ["Foofile"] = "fooscript",
-      --   },
-      pattern = {
-        --     ["~/%.config/foo/.*"] = "fooscript",
-        -- Lua does not support regex
-        --
-        -- https://stackoverflow.com/a/2696469/6802186
-        -- https://neovim.io/doc/user/luaref.html#luaref-patterns
-        [".+/dispatcher/src/.+%.any"] = "apache",
-        [".+/dispatcher/src/.+%.conf"] = "apache",
-        [".+/dispatcher/src/.+%.farm"] = "apache",
-        [".+/dispatcher/src/.+%.rules"] = "apache",
-        [".+/dispatcher/src/.+%.vars"] = "apache",
-        [".+/dispatcher/src/.+%.vhost"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.any"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.conf"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.farm"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.rules"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.vars"] = "apache",
-        [".+/dispatcher%-sdk%-.+/src/.+%.vhost"] = "apache",
-        [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
-        -- '-' is a "magic character" hence it has to be escaped
-        [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
-        [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
-      },
+    -- vim.filetype.add {
+    --   extension = {
+    --     foo = "fooscript",
+    --   },
+    --   filename = {
+    --     ["Foofile"] = "fooscript",
+    --   },
+    --   pattern = {
+    --     ["~/%.config/foo/.*"] = "fooscript",
+    --   },
+    -- }
+    pattern = {
+      -- Lua does not support regex
+      --
+      -- https://stackoverflow.com/a/2696469/6802186
+      -- https://neovim.io/doc/user/luaref.html#luaref-patterns
+      [".+/dispatcher/src/.+%.any"] = "apache",
+      [".+/dispatcher/src/.+%.conf"] = "apache",
+      [".+/dispatcher/src/.+%.farm"] = "apache",
+      [".+/dispatcher/src/.+%.rules"] = "apache",
+      [".+/dispatcher/src/.+%.vars"] = "apache",
+      [".+/dispatcher/src/.+%.vhost"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.any"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.conf"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.farm"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.rules"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.vars"] = "apache",
+      [".+/dispatcher%-sdk%-.+/src/.+%.vhost"] = "apache",
+      [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
+      -- '-' is a "magic character" hence it has to be escaped
+      [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
+      [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
     }
   end,
 }
