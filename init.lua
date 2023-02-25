@@ -9,7 +9,7 @@ local config = {
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
-    channel = "nightly", -- "stable" or "nightly"
+    channel = "stable", -- "stable" or "nightly"
     version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
     branch = "main", -- branch name (NIGHTLY ONLY)
     commit = nil, -- commit hash (NIGHTLY ONLY)
@@ -84,6 +84,7 @@ local config = {
     "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
     "    ██   ████   ████   ██ ██      ██",
   },
+
   -- Default theme configuration
   default_theme = {
     -- Modify the color palette for the default theme
@@ -153,6 +154,7 @@ local config = {
       },
       disabled = { -- disable formatting capabilities for the listed language servers
         -- "sumneko_lua",
+        "sumneko_lua",
       },
       timeout_ms = 1000, -- default format timeout
       -- filter = function(client) -- fully override the default formatting function
@@ -202,6 +204,7 @@ local config = {
       },
     },
   },
+
   -- Mapping data with "desc" stored directly by vim.keymap.set().
   --
   -- Please use this mappings table to set keyboard mapping since this is the
@@ -345,7 +348,7 @@ local config = {
         "marksman",
         "pyright",
         "rust_analyzer",
-        "terraformls",
+        "terraformls@v0.30.1",
         "volar",
         "lemminx",
         "yamlls",
