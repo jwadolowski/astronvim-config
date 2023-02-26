@@ -458,6 +458,8 @@ local config = {
         --
         -- https://stackoverflow.com/a/2696469/6802186
         -- https://neovim.io/doc/user/luaref.html#luaref-patterns
+        --
+        -- '-' and '.' are "magic character" hence they have to be escaped
         [".+/dispatcher/src/.+%.any"] = "apache",
         [".+/dispatcher/src/.+%.conf"] = "apache",
         [".+/dispatcher/src/.+%.farm"] = "apache",
@@ -471,9 +473,9 @@ local config = {
         [".+/dispatcher%-sdk%-.+/src/.+%.vars"] = "apache",
         [".+/dispatcher%-sdk%-.+/src/.+%.vhost"] = "apache",
         [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
-        -- '-' is a "magic character" hence it has to be escaped
         [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
         [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
+        [".+/helm%-charts/.+/values%.yaml%.ci%.tpl"] = "yaml",
       },
     }
   end,
