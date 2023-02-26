@@ -475,7 +475,7 @@ local config = {
         [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
         [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
         [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
-        [".+/helm%-charts/.+/values%.yaml%.ci%.tpl"] = "yaml",
+        [".+/values%.yaml%.ci%.tpl"] = "yaml",
       },
     }
   end,
