@@ -265,10 +265,7 @@ local config = {
 
       -- other plugins
       ["ahmedkhalf/project.nvim"] = {
-        config = function()
-          require("project_nvim").setup {
-          }
-        end,
+        config = function() require("project_nvim").setup {} end,
       },
       { "tpope/vim-surround" },
       { "fatih/vim-go" },
@@ -455,27 +452,29 @@ local config = {
     --     ["~/%.config/foo/.*"] = "fooscript",
     --   },
     -- }
-    pattern = {
-      -- Lua does not support regex
-      --
-      -- https://stackoverflow.com/a/2696469/6802186
-      -- https://neovim.io/doc/user/luaref.html#luaref-patterns
-      [".+/dispatcher/src/.+%.any"] = "apache",
-      [".+/dispatcher/src/.+%.conf"] = "apache",
-      [".+/dispatcher/src/.+%.farm"] = "apache",
-      [".+/dispatcher/src/.+%.rules"] = "apache",
-      [".+/dispatcher/src/.+%.vars"] = "apache",
-      [".+/dispatcher/src/.+%.vhost"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.any"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.conf"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.farm"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.rules"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.vars"] = "apache",
-      [".+/dispatcher%-sdk%-.+/src/.+%.vhost"] = "apache",
-      [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
-      -- '-' is a "magic character" hence it has to be escaped
-      [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
-      [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
+    vim.filetype.add {
+      pattern = {
+        -- Lua does not support regex
+        --
+        -- https://stackoverflow.com/a/2696469/6802186
+        -- https://neovim.io/doc/user/luaref.html#luaref-patterns
+        [".+/dispatcher/src/.+%.any"] = "apache",
+        [".+/dispatcher/src/.+%.conf"] = "apache",
+        [".+/dispatcher/src/.+%.farm"] = "apache",
+        [".+/dispatcher/src/.+%.rules"] = "apache",
+        [".+/dispatcher/src/.+%.vars"] = "apache",
+        [".+/dispatcher/src/.+%.vhost"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.any"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.conf"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.farm"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.rules"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.vars"] = "apache",
+        [".+/dispatcher%-sdk%-.+/src/.+%.vhost"] = "apache",
+        [".+/charts/.+/templates/.+%.yaml"] = "gohtmltmpl",
+        -- '-' is a "magic character" hence it has to be escaped
+        [".+/rendered%-manifests/.+/charts/.+/templates/.+%.yaml"] = { "yaml", { priority = 10 } },
+        [".+/charts/.+/templates/.+%.tpl"] = "gohtmltmpl",
+      },
     }
   end,
 }
