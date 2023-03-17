@@ -327,6 +327,7 @@ local config = {
         "rust",
         "scss",
         "sql",
+        "terraform",
         "toml",
         "typescript",
         "vim",
